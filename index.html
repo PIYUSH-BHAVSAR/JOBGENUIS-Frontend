@@ -1,0 +1,460 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Interview Question Generator
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+    #loader {
+        transition: opacity 0.5s ease-out;
+      }
+      
+      #loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+   .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 1s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hover-grow:hover {
+            transform: scale(1.05);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide-in-bottom {
+            opacity: 0;
+            transform: translateY(100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .autocomplete-suggestions {
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: rgb(217, 215, 229);
+            position: absolute;
+            z-index: 1000;
+        }
+        
+
+        .autocomplete-suggestion {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .autocomplete-suggestion:hover {
+            background-color: #4852ad;
+        }
+        .output {
+        text-align: left;
+        padding: 1rem;
+        line-height: 1.6;
+        white-space: pre-wrap;
+      }
+  </style>
+  <script>
+   function generateQuestions(event) {
+            event.preventDefault();
+            document.getElementById('generated-questions').classList.remove('hidden');
+            document.getElementById('generated-questions').classList.add('fade-in');
+        }
+
+        function handleScroll() {
+            const elements = document.querySelectorAll('.slide-in-bottom');
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        document.addEventListener('scroll', handleScroll);
+        document.addEventListener('DOMContentLoaded', handleScroll);
+
+        const jobRoles = [
+            "Software Engineer",
+            "Data Scientist",
+            "Product Manager",
+            "Marketing Specialist",
+            "Sales Manager",
+            "DevOps Engineer",
+            "System Administrator",
+            "Network Engineer",
+            "Database Administrator",
+            "Security Analyst",
+            "UX/UI Designer",
+            "Business Analyst",
+            "Technical Support Specialist",
+            "IT Project Manager",
+            "Cloud Engineer",
+            "AI/ML Engineer",
+            "QA Engineer",
+            "Mobile App Developer",
+            "Web Developer",
+            "IT Consultant"
+        ];
+
+        function filterRoles() {
+            const input = document.getElementById('job-role');
+            const filter = input.value.toLowerCase();
+            const suggestions = document.getElementById('autocomplete-suggestions');
+            suggestions.innerHTML = '';
+
+            if (filter) {
+                const filteredRoles = jobRoles.filter(role => role.toLowerCase().includes(filter));
+                filteredRoles.forEach(role => {
+                    const div = document.createElement('div');
+                    div.classList.add('autocomplete-suggestion');
+                    div.textContent = role;
+                    div.onclick = () => {
+                        input.value = role;
+                        suggestions.innerHTML = '';
+                    };
+                    suggestions.appendChild(div);
+                });
+            }
+        }
+  </script>
+ </head>
+ <body class="bg-gradient-to-r from-blue-500 to-green-500 font-roboto">
+    <!-- Add this inside <body> as the first child -->
+        <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+            <video id="loading-video" autoplay muted playsinline class="w-full h-full object-cover">
+              <source src="starte.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          
+    <video autoplay muted loop playsinline class="fixed top-0 left-0 w-full h-full object-cover z-[-1]">
+        <source src="bg.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <header class="text-white p-4" style="background: linear-gradient(to right, rgba(25, 48, 99, 0.8), rgba(34, 197, 94, 0.8));">
+   <div class="container mx-auto flex justify-between items-center">
+    <div class="h-full flex items-center">
+        <img src="logo.jpg" alt="Logo" class="h-20 w-30 object-contain" />
+      </div>
+    <h1 class="absolute left-1/2 transform -translate-x-1/2 text-5xl font-Sora">
+        𝒥𝒪𝐵 𝒢𝐸𝒩𝐼𝒰𝒮 🤖
+      </h1>
+    <nav>
+     <ul class="flex space-x-4">
+      <li>
+       <a class="hover:underline text-1xl" href="#">
+        Home
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline text-1xl" href="#">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline text-1xl" href="#">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <main class="container mx-auto p-4 text-center">
+    <section 
+    class="p-6 rounded shadow-md mb-8 flex flex-col md:flex-row items-center justify-center slide-up"
+    style="background: linear-gradient(to right, rgba(219, 234, 254, 0.7), rgba(209, 250, 229, 0.7));"
+  >
+    <div class="md:w-1/2 slide-in-bottom text-center md:text-center">  
+     <h2 class="text-xl font-bold mb-4">
+      About Our Service
+     </h2>
+     <p class="mb-4">
+      Our Interview Question Generator helps you prepare for job interviews by generating relevant questions based on your resume and the job description. Simply upload your resume, paste the job description, and get a list of tailored interview questions to help you practice and succeed in your job search.
+     </p>
+     <p>
+      Whether you're a job seeker looking to ace your next interview or a recruiter wanting to prepare better questions, our tool is designed to make the process easier and more efficient.
+     </p>
+    </div>
+    <div class="md:w-1/2 mt-4 md:mt-0 md:ml-4 slide-in-bottom text-center">
+     <img alt="Illustration of a person preparing for an interview with a laptop and notes" height="300" src="https://storage.googleapis.com/a1aa/image/0w3qEQxucrb6zU1ri_fLKgzjOlNMorcNKMiZ76rGAfg.jpg" width="400"/>
+    </div>
+   </section>
+   <section class="bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded shadow-md slide-up slide-in-bottom relative max-w-5xl mx-auto mb-16">
+    <h2 class="text-xl font-bold mb-4">
+     Generate Interview Questions
+    </h2>
+    
+    <div class="container slide-up">
+      <form id="analyzeForm" class="fade-in space-y-4">
+        <label for="resume" class="block text-lg font-semibold">Upload Resume (PDF only):</label>
+        <input 
+          type="file" 
+          id="resume" 
+          name="resume" 
+          accept="application/pdf" 
+          required 
+          class="hover-grow block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+        />
+    
+        <label for="job_description" class="block text-lg font-semibold">Paste Job Description (optional):</label>
+        <textarea 
+          id="job_description" 
+          name="job_description" 
+          rows="6" 
+          placeholder="Copy and paste the job description here..." 
+          class="hover-grow block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+        ></textarea>
+    
+        <button 
+          type="submit" 
+          class="hover-grow bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition hover:bg-blue-700"
+        >
+          Analyze
+        </button>
+      </form>
+    
+      <h2 class="slide-up text-2xl font-bold mt-10">🔍 Role Match Results</h2>
+      <div class="output collapsible slide-in-bottom" id="role_match">Waiting for input...</div>
+      
+    
+      <h2 class="slide-up text-2xl font-bold mt-10">📄 Resume vs Job Description</h2>
+      <div class="output collapsible slide-in-bottom" id="jd_analysis">Waiting for input...</div>
+      
+    
+      <h2 class="slide-up text-2xl font-bold mt-10">🎯 Interview Questions</h2>
+      <div class="output collapsible slide-in-bottom" id="interview_questions">Waiting for input...</div>
+      
+    </div>
+    
+   
+
+   <section class="bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded shadow-md mb-8 slide-up slide-in-bottom max-w-4xl mx-auto">
+    <h2 class="text-xl font-bold mb-4">
+     How It Works
+    </h2>
+    <p class="mb-4">
+     By taking your resume and the job description, our tool generates a set of interview questions that are tailored to the specific job you are applying for. This helps you to:
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Step 1: Upload Resume
+      </h3>
+      <p>
+       Upload your resume to provide us with your background and experience.
+      </p>
+     </div>
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Step 2: Enter Job Description
+      </h3>
+      <p>
+       Paste the job description to help us understand the role you are applying for.
+      </p>
+     </div>
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Step 3: Generate Questions
+      </h3>
+      <p>
+       Click the generate button to receive tailored interview questions.
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="mt-8 max-w-4xl mx-auto slide-up slide-in-bottom">
+    <h2 class="text-xl font-bold mb-4 text-white">
+     Benefits of Using Our Tool
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Identify Key Areas
+      </h3>
+      <p>
+       Identify key areas of your experience and skills that are relevant to the job.
+      </p>
+     </div>
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Practice Questions
+      </h3>
+      <p>
+       Practice answering questions that are likely to come up in the interview.
+      </p>
+     </div>
+     <div class="bg-gradient-to-r from-blue-200 to-green-200 p-6 rounded shadow-md hover-grow">
+      <h3 class="font-bold mb-2">
+       Build Confidence
+      </h3>
+      <p>
+       Build confidence in your ability to articulate your qualifications and experiences.
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded shadow-md mt-8 max-w-lg mx-auto slide-up slide-in-bottom">
+    <h2 class="text-xl font-bold mb-4">
+     Feedback Form
+    </h2>
+    <form class="space-y-4">
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="name">
+       Name
+      </label>
+      <input class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="name" name="name" type="text"/>
+     </div>
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="email">
+       Email
+      </label>
+      <input class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="email" name="email" type="email"/>
+     </div>
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="feedback">
+       Feedback
+      </label>
+      <textarea class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="feedback" name="feedback" rows="4"></textarea>
+     </div>
+     <button class="w-1/2 bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 hover-grow" type="submit">
+      Submit Feedback
+     </button>
+    </form>
+   </section>
+  </main>
+  <footer class="bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 mt-8">
+   <div class="container mx-auto text-center">
+    <p>
+     © 2023 Interview Question Generator. All rights reserved.
+    </p>
+    <div class="mt-4">
+     <a class="mx-2 hover:underline" href="#">
+      Privacy Policy
+     </a>
+     <a class="mx-2 hover:underline" href="#">
+      Terms of Service
+     </a>
+    </div>
+    <div class="mt-4">
+     <a class="mx-2" href="#">
+      <i class="fab fa-facebook-f">
+      </i>
+     </a>
+     <a class="mx-2" href="#">
+      <i class="fab fa-twitter">
+      </i>
+     </a>
+     <a class="mx-2" href="#">
+      <i class="fab fa-linkedin-in">
+      </i>
+     </a>
+    </div>
+   </div>
+  </footer>
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+          loader.style.display = 'none';
+        }
+      }, 6000); // 1.5 seconds
+    });
+    const form = document.getElementById('analyzeForm');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+
+  const roleEl = document.getElementById('role_match');
+  const jdEl = document.getElementById('jd_analysis');
+  const interviewEl = document.getElementById('interview_questions');
+
+  roleEl.innerText = 'Loading...';
+  jdEl.innerText = 'Loading...';
+  interviewEl.innerText = 'Loading...';
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/analyze/", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error("Analysis failed");
+
+    const result = await response.json();
+
+    roleEl.innerHTML = formatResponse(result.role_match);
+    jdEl.innerHTML = formatResponse(result.jd_analysis);
+    interviewEl.innerHTML = formatResponse(result.interview_questions);
+
+    collapseAll();
+
+  } catch (err) {
+    roleEl.innerText = "Error loading role suggestions.";
+    jdEl.innerText = "Error loading analysis.";
+    interviewEl.innerText = "Error loading questions.";
+    console.error(err);
+  }
+});
+
+function formatResponse(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // Bold
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')               // Italics
+    .replace(/\n/g, '<br>');                            // Line breaks
+}
+
+function toggleSection(id) {
+  const section = document.getElementById(id);
+  section.classList.toggle('expanded');
+
+  const btn = section.nextElementSibling;
+  btn.textContent = section.classList.contains('expanded') ? 'Show Less' : 'Show More';
+}
+
+function collapseAll() {
+  document.querySelectorAll('.collapsible').forEach(div => div.classList.remove('expanded'));
+  document.querySelectorAll('.toggle-btn').forEach(btn => btn.textContent = 'Show More');
+}
+  </script>
+  
+  
+ </body>
+</html>
